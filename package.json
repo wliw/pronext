@@ -1,0 +1,30 @@
+{
+  "name": "pronext",
+  "version": "0.0.1",
+  "description": "This is vue project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wliw/pronext.git"
+  },
+  "keywords": [
+    "Vue",
+    "webpack"
+  ],
+  "author": "wliw",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wliw/pronext/issues"
+  },
+  "homepage": "https://github.com/wliw/pronext#readme",
+  "devDependencies": {
+    "css-loader": "^3.2.0",
+    "eslint": "^6.6.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}
