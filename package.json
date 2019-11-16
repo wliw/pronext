@@ -15,7 +15,7 @@
     "webpack"
   ],
   "author": "wliw",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/wliw/pronext/issues"
   },
