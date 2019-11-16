@@ -1,23 +1,24 @@
 // http://eslint.org/docs/user-guide/configuring
-
 module.exports = {
     root: true,
     parserOptions: {
         parser: 'babel-eslint',
-        ecmaVersion: 6,
-        sourceType: 'module'
+        sourceType: 'module',
+        ecmaVersion: 6
     },
     env: {
-        browser: true
+        browser: true,
+        node: true,
+        es6: true
     },
-    //  https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-    extends: [
-        'eslint:recommended'
-    ],
-    // required to lint *.vue files
-    plugins: [
-        'html'
-    ],
+    extends: ['eslint:recommended'],
+    // required to lint *.html files
+    plugins: ['html'],
+    settings: {
+        'html/indent': '+4',
+        'html/html-extensions': ['.html'],
+        'html/javascript-mime-types': ['text/javascript']
+    },
     globals: {
         API_ORIGIN: false,
         ROUTER_MODE: false,
@@ -26,7 +27,7 @@ module.exports = {
     // "off" -> 0 关闭规则
     // "warn" -> 1 开启警告规则
     // "error" -> 2 开启错误规则
-    'rules': {
+    rules: {
         indent: ['warn', 4],
         semi: ['warn', 'always'],
         camelcase: 0,

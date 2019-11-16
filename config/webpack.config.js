@@ -1,28 +1,43 @@
-const path = require('path');
 const webpack = require('webpack');
-const configs = require('./index.js');
+const configs = require('./config.js');
 const resolve = require('../utils/index.js');
+const entryFiles = require('./entryFiles.js');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = function (DEPLOY_ENV) {
+module.exports = function (DEPLOY_ENV = 'production') {
+    const entry = {};
     const config = configs[DEPLOY_ENV];
+    const plugins = [
+        new webpack.DefinePlugin({
+            'process.env.DEPLOY_ENV': JSON.stringify(DEPLOY_ENV)
+        }),
+        new MiniCssExtractPlugin({
+            filename: `css/${config.filenameHash ? '[name].[contenthash:8].css' : '[name].css?[contenthash:8]'}`,
+            chunkFilename: `css/${config.filenameHash ? '[id].[contenthash:8].css' : '[id].css?[contenthash:8]'}`
+        })
+    ];
     const webpackConfig = {
         mode: 'production',
-        entry: {
-            index: resolve('src/index.js');
-        },
+        context: resolve('src'),
+        entry,
         output: {
             path: resolve('dist'),
-            filename: `js/${config.filenameHash ? '[name].[chunkhash:8].js' : '[name].js?[chunkhash:8]'}`,
             publicPath: config.PUBLIC_PATH,
+            filename: `js/${config.filenameHash ? '[name].[chunkhash:8].js' : '[name].js?[chunkhash:8]'}`,
             chunkFilename: `js/${config.filenameHash ? '[id].[chunkhash:8].js' : '[id].js?[chunkhash:8]'}`
         },
         module: {
             rules: [
                 {
-                    test: /.(js|jsx|vue)$/,
-                    include: [],
-                    enforce: 'pre',
+                    test: /.(js|jsx)$/,
+                    // enforce: 'pre',
+                    include: [
+                        resolve('src')
+                    ],
+                    exclude: /node_modules/,
                     use: [
+                        'babel-loader',
                         {
                             loader: 'eslint-loader',
                             options: {
@@ -31,19 +46,53 @@ module.exports = function (DEPLOY_ENV) {
                         }
                     ]
                 },
-                {
-                    test: /.(js|jsx)$/,
-                    use: 'babel-loader',
-                    include: []
-                },
+                // {
+                //     test: /.js$/,
+                //     use: 'babel-loader',
+                //     include: [
+                //         resolve('src')
+                //     ],
+                //     exclude: /node_modules/
+                // },
                 {
                     test: /.s?css$/,
                     use: [
-                        'style-loader',
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                hmr: DEPLOY_ENV === 'development'
+                            }
+                        },
                         {
                             loader: 'css-loader',
                             options: {
-                                modules: true
+                                importLoaders: 2
+                            }
+                        },
+                        'postcss-loader',
+                        'sass-loader'
+                    ]
+                },
+                {
+                    test: /\.(png|svg|gif|jpe?g)(\?[a-z0-9=]+)?$/,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: '[name].[ext]?[contenthash:8]',
+                                outputPath: 'images/'
+                            }
+                        }
+                    ]
+                },
+                {
+                    test: /\.(woff|woff2|eot|ttf|otf)(\?[a-z0-9=]+)?$/,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: '[name].[ext]?[contenthash:8]',
+                                outputPath: 'fonts/'
                             }
                         }
                     ]
@@ -51,9 +100,6 @@ module.exports = function (DEPLOY_ENV) {
             ]
         },
         resolve: {
-            modules: [
-                'node_modules'
-            ],
             extensions: [
                 '.js',
                 '.json',
@@ -61,28 +107,25 @@ module.exports = function (DEPLOY_ENV) {
                 '.css'
             ],
             alias: {
-                '@': ''
+                '@': resolve('src')
             }
         },
-        devtool: '',
-        externals: ['vue'],
-        devServer: {
-            proxy: {
-                '/api': 'http://localhost:8848'
-            },
-            contentBase: '',
-            compress: true,
-            historyApiFallback: true,
-            hot: true,
-            https: false
-        },
-        plugins: [],
-        watch: true,
-        watchOptions: {
-            aggregateTimeout: 2000,
-            poll: 500,
-        }
+        devtool: config.devtool,
+        externals: /^(jquery|zepto|\$)$/i,
+        plugins
     };
+
+    entryFiles.forEach(item => {
+        entry[item.key] = item.entry;
+        plugins.push(
+            new HtmlWebpackPlugin({
+                filename: item.name,
+                template: item.template,
+                chunks: [item.key],
+                inject: 'body'
+            })
+        );
+    });
 
     return webpackConfig;
 };

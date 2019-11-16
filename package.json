@@ -1,9 +1,14 @@
 {
   "name": "pronext",
   "version": "0.0.1",
-  "description": "This is vue project",
-  "main": "index.js",
+  "description": "This is h5 project",
+  "private": true,
   "scripts": {
+    "start": "webpack-dev-server  --open --config build/dev.js",
+    "build:local": "DEPLOY_ENV=local npm run build",
+    "build:test": "DEPLOY_ENV=test npm run build",
+    "build:pre": "DEPLOY_ENV=pre npm run build",
+    "build": "webpack --config --progress build/build.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -11,7 +16,7 @@
     "url": "git+https://github.com/wliw/pronext.git"
   },
   "keywords": [
-    "Vue",
+    "h5",
     "webpack"
   ],
   "author": "wliw",
@@ -21,10 +26,31 @@
   },
   "homepage": "https://github.com/wliw/pronext#readme",
   "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "autoprefixer": "^9.7.1",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.2.0",
     "eslint": "^6.6.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^3.0.2",
+    "eslint-plugin-html": "^6.0.0",
+    "fibers": "^4.0.2",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.13.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-pxtorem": "^4.0.1",
+    "sass": "^1.23.6",
+    "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
+    "terser-webpack-plugin": "^2.2.1",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-merge": "^4.2.2"
   }
 }
