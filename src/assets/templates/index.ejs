@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        ;(function (win, doc) {
+            var docEl = doc.documentElement;
+            var UA = navigator.userAgent;
+            var refreshRemId = 0;
+            var refreshRem = function () {
+                refreshRemId && clearTimeout(refreshRemId);
+
+                var w = docEl.getBoundingClientRect().width || 320;
+                var fontSize = w / 375 * 100;
+
+                fontSize = fontSize > 200 ? 200 : fontSize;
+                docEl.style.fontSize = fontSize + 'px';
+
+                // 好像小米或者美图手机会出现这个问题
+                var finalFontSize = parseFloat(win.getComputedStyle(docEl).getPropertyValue('font-size'));
+
+                if (finalFontSize !== fontSize) {
+                    fontSize = fontSize + (fontSize - finalFontSize);
+                    docEl.style.fontSize = fontSize + 'px';
+                    win.fontSize = fontSize;
+                }
+            };
+            win.addEventListener('resize', function () {
+                refreshRemId = setTimeout(refreshRem, 100)
+            }, false);
+            win.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    refreshRemId = setTimeout(refreshRem, 100)
+                }
+            }, false);
+            refreshRem();
+        })(window, document);
+    </script>
+</head>
+<body>
+
+</body>
+</html>
