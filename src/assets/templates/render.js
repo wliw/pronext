@@ -1,10 +1,16 @@
 const renderTemplate = require('./index.ejs');
 
 export default function render ({
-    debug = false,
-    env = process.env.DEPLOY_ENV
+    title = 'App',
+    keywords = 'keywords',
+    description = 'description',
+    env = process.env.DEPLOY_ENV,
+    debug = false
 } = {}) {
     return renderTemplate({
+        title,
+        keywords,
+        description,
         env,
         debug
     });
