@@ -35,7 +35,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
                     include: [
                         resolve('src')
                     ],
-                    exclude: /node_modules/,
+                    exclude: /(node_modules|bower_components)/,
                     use: [
                         'babel-loader',
                         {
@@ -96,6 +96,10 @@ module.exports = function (DEPLOY_ENV = 'production') {
                             }
                         }
                     ]
+                },
+                {
+                    test: /\.ejs$/,
+                    loader: 'ejs-loader'
                 }
             ]
         },
