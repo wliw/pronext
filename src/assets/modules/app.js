@@ -1,3 +1,5 @@
+import contentLoaded from './contentLoaded.js';
+
 function App (options) {
     this._init(options);
 }
@@ -34,8 +36,15 @@ function includeMixin (App) {
     };
 }
 
+function domLoadedMixin (App) {
+    App.domLoaded = function (func) {
+        contentLoaded(func);
+    }
+}
+
 initMixin(App);
 extendMixin(App);
 includeMixin(App);
+domLoadedMixin(App);
 
 export default App;
