@@ -35,7 +35,10 @@ module.exports = function (DEPLOY_ENV = 'production') {
                     include: [
                         resolve('src')
                     ],
-                    exclude: /(node_modules|bower_components)/,
+                    exclude: [
+                        resolve('node_modules'),
+                        resolve('src/lib')
+                    ],
                     use: [
                         'babel-loader',
                         {

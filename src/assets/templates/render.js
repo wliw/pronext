@@ -1,4 +1,4 @@
-const renderTemplate = require('./template.ejs');
+const templateEjs = require('./template.ejs');
 
 export default function render ({
     title = 'App',
@@ -9,7 +9,7 @@ export default function render ({
 } = {}) {
     const contents = templates.map(template => template());
 
-    return renderTemplate({
+    return templateEjs({
         title,
         keywords,
         description,
