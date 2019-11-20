@@ -10,7 +10,9 @@ module.exports = function (DEPLOY_ENV = 'production') {
     const config = configs[DEPLOY_ENV];
     const plugins = [
         new webpack.DefinePlugin({
-            'process.env.DEPLOY_ENV': JSON.stringify(DEPLOY_ENV)
+            'process.env.DEPLOY_ENV': JSON.stringify(DEPLOY_ENV),
+            'process.env.API_DOMAIN': JSON.stringify(config.API_DOMAIN),
+            'process.env.ORIGIN_DOMAIN': JSON.stringify(config.ORIGIN_DOMAIN)
         }),
         new MiniCssExtractPlugin({
             filename: `css/${config.filenameHash ? '[name].[contenthash:8].css' : '[name].css?[contenthash:8]'}`,
