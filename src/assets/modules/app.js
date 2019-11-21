@@ -39,7 +39,7 @@ function includeMixin (App) {
 function domLoadedMixin (App) {
     App.domLoaded = function (func) {
         contentLoaded(func);
-    }
+    };
 }
 
 initMixin(App);
