@@ -1,3 +1,3 @@
-module.exports = function () {
-    console.log(2333);
-};
+import './index.scss';
+
+console.log(233333);

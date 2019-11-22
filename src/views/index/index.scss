@@ -1,0 +1,64 @@
+@import "~@/assets/styles/common.scss";
+
+body {
+    width: 100%;
+    max-width: 750PX;
+    margin: 0 auto;
+}
+
+.c-pic-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.c-pic {
+    padding: 10px 0 4px;
+    white-space: nowrap;
+    font-size: 0;
+    line-height: 1;
+    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.c-pic::-webkit-scrollbar {
+    display: none;
+}
+
+.c-pic-flag {
+    position: absolute;
+    right: 0;
+    bottom: 4px;
+    z-index: 1;
+    padding: 4px 8px;
+    background-color: rgba(0, 0, 0, .25);
+    border-radius: 8px 0 0 0;
+    font-size: 13px;
+    color: #fff;
+}
+
+.c-pic .plist {
+    display: inline-block;
+    width: 33.3333%;
+    margin-right: 4px;
+}
+
+.c-pic .img {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    padding-top: 100%;
+    overflow: hidden;
+}
+
+.c-pic .img > img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+}

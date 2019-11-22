@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = function (DEPLOY_ENV = 'production') {
     const entry = {};
     const config = configs[DEPLOY_ENV];
+    const staticPath = config.STATIC_PATH;
     const plugins = [
         new webpack.DefinePlugin({
             'process.env.DEPLOY_ENV': JSON.stringify(DEPLOY_ENV),
@@ -25,13 +26,14 @@ module.exports = function (DEPLOY_ENV = 'production') {
         output: {
             path: resolve('dist'),
             publicPath: config.PUBLIC_PATH,
-            filename: `js/${config.filenameHash ? '[name].[hash:8].js' : '[name].js?[hash:8]'}`,
-            chunkFilename: `js/${config.filenameHash ? '[id].[chunkhash:8].js' : '[id].js?[chunkhash:8]'}`
+            filename: `${staticPath}js/${config.filenameHash ? '[name].[hash:8].js' : '[name].js?[hash:8]'}`,
+            chunkFilename: `${staticPath}js/${config.filenameHash ? '[id].[chunkhash:8].js' : '[id].js?[chunkhash:8]'}`
         },
         module: {
             rules: [
                 {
-                    test: /.(js|jsx)$/,
+                    test: /\.(js|jsx)$/,
+                    loader: 'eslint-loader',
                     enforce: 'pre',
                     include: [
                         resolve('src')
@@ -40,31 +42,19 @@ module.exports = function (DEPLOY_ENV = 'production') {
                         resolve('node_modules'),
                         resolve('src/lib')
                     ],
-                    use: [
-                        {
-                            loader: 'eslint-loader',
-                            options: {
-                                formatter: require('eslint-friendly-formatter')
-                            }
-                        }
-                    ]
+                    options: {
+                        formatter: require('eslint-friendly-formatter')
+                    }
                 },
                 {
-                    test: /.(js|jsx)$/,
+                    test: /\.(js|jsx)$/,
+                    loader: 'babel-loader',
                     include: [
                         resolve('src')
                     ],
                     exclude: [
                         resolve('node_modules'),
                         resolve('src/lib')
-                    ],
-                    use: [
-                        {
-                            loader: 'babel-loader',
-                            options: {
-                                rootMode: 'upward' // root/upward/upward-optional
-                            }
-                        }
                     ]
                 },
                 {
@@ -73,7 +63,9 @@ module.exports = function (DEPLOY_ENV = 'production') {
                         {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                hmr: DEPLOY_ENV === 'development'
+                                hmr: DEPLOY_ENV === 'development',
+                                reloadAll: true,
+                                publicPath: `${staticPath}`
                             }
                         },
                         {
@@ -93,7 +85,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
                             loader: 'file-loader',
                             options: {
                                 name: '[name].[ext]?[contenthash:8]',
-                                outputPath: 'images/'
+                                outputPath: `${staticPath}images/`
                             }
                         }
                     ]
@@ -105,7 +97,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
                             loader: 'file-loader',
                             options: {
                                 name: '[name].[ext]?[contenthash:8]',
-                                outputPath: 'fonts/'
+                                outputPath: `${staticPath}fonts/`
                             }
                         }
                     ]

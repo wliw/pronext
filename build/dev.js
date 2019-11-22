@@ -16,7 +16,6 @@ module.exports = merge(webpackConfig, {
         compress: true,
         hot: true,
         open: true,
-        noInfo: true,
         // proxy: {
         //     '/api': config.API_DOMAIN
         // },

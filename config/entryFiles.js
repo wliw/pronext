@@ -7,6 +7,6 @@ module.exports = [
         key: 'index',
         name: 'index.html',
         entry: resolve(`${prefix}/index/index.js`),
-        template: resolve(`${prefix}/index.html`)
+        template: resolve(`${prefix}/index/render.js`)
     }
 ];

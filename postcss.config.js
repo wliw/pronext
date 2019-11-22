@@ -1,6 +1,15 @@
 module.exports = {
-    plugins: [
+    plugins: {
         // to edit target browsers in .browserlist
-        require('autoprefixer')
-    ]
+        autoprefixer: true,
+        'postcss-pxtorem': {
+            rootValue: 100,
+            unitPrecision: 5,
+            propList: ['*'],
+            selectorBlackList: [],
+            replace: true,
+            mediaQuery: false,
+            minPixelValue: 0
+        }
+    }
 };

@@ -1,3 +1,9 @@
-import Render from '@/assets/templates/render.js';
+import Render from '@/assets/template/render.js';
+import template from './template.ejs';
 
-export default Render();
+export default Render({
+    title: 'title',
+    keywords: 'hello',
+    description: 'world',
+    templates: [template]
+});
