@@ -2,20 +2,21 @@ const DEPLOY_ENV = 'development';
 const merge = require('webpack-merge');
 const resolve = require('../utils/index.js');
 const config = require('../config/config.js')[DEPLOY_ENV];
-const webpackConfig = require('../config/webpack.config.js');
+const webpackConfig = require('../config/webpack.config.js')(DEPLOY_ENV);
 
-module.exports = merge(webpackConfig(DEPLOY_ENV), {
+module.exports = merge(webpackConfig, {
     mode: 'development',
-    performance: {
-        hints: 'error'
-    },
+    // performance: {
+    //     hints: 'error'
+    // },
     devServer: {
         contentBase: resolve('dist'),
-        host: config.ORIGIN_DOMAIN,
+        host: config.host,
         port: config.port,
         compress: true,
         hot: true,
         open: true,
+        noInfo: true,
         // proxy: {
         //     '/api': config.API_DOMAIN
         // },

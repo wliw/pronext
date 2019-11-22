@@ -21,19 +21,18 @@ module.exports = function (DEPLOY_ENV = 'production') {
     ];
     const webpackConfig = {
         mode: 'production',
-        context: resolve('src'),
         entry,
         output: {
             path: resolve('dist'),
             publicPath: config.PUBLIC_PATH,
-            filename: `js/${config.filenameHash ? '[name].[chunkhash:8].js' : '[name].js?[chunkhash:8]'}`,
+            filename: `js/${config.filenameHash ? '[name].[hash:8].js' : '[name].js?[hash:8]'}`,
             chunkFilename: `js/${config.filenameHash ? '[id].[chunkhash:8].js' : '[id].js?[chunkhash:8]'}`
         },
         module: {
             rules: [
                 {
                     test: /.(js|jsx)$/,
-                    // enforce: 'pre',
+                    enforce: 'pre',
                     include: [
                         resolve('src')
                     ],
@@ -42,7 +41,6 @@ module.exports = function (DEPLOY_ENV = 'production') {
                         resolve('src/lib')
                     ],
                     use: [
-                        'babel-loader',
                         {
                             loader: 'eslint-loader',
                             options: {
@@ -51,14 +49,17 @@ module.exports = function (DEPLOY_ENV = 'production') {
                         }
                     ]
                 },
-                // {
-                //     test: /.js$/,
-                //     use: 'babel-loader',
-                //     include: [
-                //         resolve('src')
-                //     ],
-                //     exclude: /node_modules/
-                // },
+                {
+                    test: /.(js|jsx)$/,
+                    use: 'babel-loader',
+                    include: [
+                        resolve('src')
+                    ],
+                    exclude: [
+                        resolve('node_modules'),
+                        resolve('src/lib')
+                    ]
+                },
                 {
                     test: /.s?css$/,
                     use: [
@@ -120,7 +121,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
             }
         },
         devtool: config.devtool,
-        externals: /^(jquery|zepto|\$)$/i,
+        // externals: /^(jquery|zepto|\$)$/i,
         plugins
     };
 
@@ -131,7 +132,12 @@ module.exports = function (DEPLOY_ENV = 'production') {
                 filename: item.name,
                 template: item.template,
                 chunks: [item.key],
-                inject: 'body'
+                inject: 'body',
+                base: config.ORIGIN_DOMAIN,
+                minify: {
+                    removeComments: true,
+                    removeRedundantAttributes: true
+                }
             })
         );
     });

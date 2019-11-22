@@ -4,7 +4,7 @@
   "description": "This is h5 project",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server  --open --config build/dev.js",
+    "start": "webpack-dev-server --open --config build/dev.js",
     "build:local": "DEPLOY_ENV=local npm run build",
     "build:test": "DEPLOY_ENV=test npm run build",
     "build:pre": "DEPLOY_ENV=pre npm run build",
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/wliw/pronext#readme",
   "devDependencies": {
     "@babel/core": "^7.7.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.7.1",
     "autoprefixer": "^9.7.1",
     "babel-eslint": "^10.0.3",
@@ -56,6 +57,8 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@babel/runtime": "^7.7.2",
+    "core-js": "^3.4.2",
     "flyio": "^0.6.14"
   }
 }

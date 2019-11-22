@@ -1,5 +1,5 @@
 const path = require('path');
 
 module.exports = function () {
-    return path.resolve(__dirname, '', ...arguments);
+    return path.resolve(__dirname, '..', ...arguments);
 };

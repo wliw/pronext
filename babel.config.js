@@ -3,17 +3,15 @@ module.exports = function (api) {
 
     const plugins = [
         [
-            '@babel/plugin-transform-runtime',
-            {
-                corejs: 2
-            }
+            '@babel/plugin-transform-runtime'
         ]
     ];
     const presets = [
         [
             '@babel/preset-env',
             {
-                module: false
+                module: false,
+                useBuiltIns: 'usage'
             }
         ]
     ];
@@ -21,5 +19,5 @@ module.exports = function (api) {
     return {
         plugins,
         presets
-    }
+    };
 };
