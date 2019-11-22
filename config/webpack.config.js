@@ -51,13 +51,20 @@ module.exports = function (DEPLOY_ENV = 'production') {
                 },
                 {
                     test: /.(js|jsx)$/,
-                    use: 'babel-loader',
                     include: [
                         resolve('src')
                     ],
                     exclude: [
                         resolve('node_modules'),
                         resolve('src/lib')
+                    ],
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                rootMode: 'upward' // root/upward/upward-optional
+                            }
+                        }
                     ]
                 },
                 {

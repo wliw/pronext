@@ -1,4 +1,4 @@
-const templateEjs = require('./template.ejs');
+import templateEjs from './template.ejs';
 
 export default function render ({
     title = 'App',
