@@ -16,8 +16,8 @@ module.exports = function (DEPLOY_ENV = 'production') {
             'process.env.ORIGIN_DOMAIN': JSON.stringify(config.ORIGIN_DOMAIN)
         }),
         new MiniCssExtractPlugin({
-            filename: `css/${config.filenameHash ? '[name].[contenthash:8].css' : '[name].css?[contenthash:8]'}`,
-            chunkFilename: `css/${config.filenameHash ? '[id].[contenthash:8].css' : '[id].css?[contenthash:8]'}`
+            filename: `${staticPath}css/${config.filenameHash ? '[name].[contenthash:8].css' : '[name].css?[contenthash:8]'}`,
+            chunkFilename: `${staticPath}css/${config.filenameHash ? '[id].[contenthash:8].css' : '[id].css?[contenthash:8]'}`
         })
     ];
     const webpackConfig = {
@@ -134,6 +134,8 @@ module.exports = function (DEPLOY_ENV = 'production') {
                 inject: 'body',
                 base: config.ORIGIN_DOMAIN,
                 minify: {
+                    minifyCSS: true,
+                    minifyJS: true,
                     removeComments: true,
                     removeRedundantAttributes: true
                 }

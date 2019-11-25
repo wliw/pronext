@@ -8,7 +8,7 @@
     "build:local": "DEPLOY_ENV=local npm run build",
     "build:test": "DEPLOY_ENV=test npm run build",
     "build:pre": "DEPLOY_ENV=pre npm run build",
-    "build": "webpack --config --progress build/build.js",
+    "build": "webpack --progress --config build/task.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
