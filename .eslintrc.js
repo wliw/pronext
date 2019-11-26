@@ -26,8 +26,9 @@ module.exports = {
         'html/javascript-mime-types': ['text/javascript']
     },
     globals: {
-        API_ORIGIN: false,
-        ROUTER_MODE: false,
+        Atomics: 'readonly',
+        SharedArrayBuffer: 'readonly',
+        ROUTER_MODE: false
     },
     // add your custom rules here
     // "off" -> 0 关闭规则
