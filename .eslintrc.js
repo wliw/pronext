@@ -1,13 +1,19 @@
 // http://eslint.org/docs/user-guide/configuring
 module.exports = {
     root: true,
+    parser: 'babel-eslint',
     parserOptions: {
-        parser: 'babel-eslint',
         sourceType: 'module',
-        ecmaVersion: 6
+        ecmaVersion: 6,
+        ecmaFeatures: {
+            experimentalObjectRestSpread: true,
+            jsx: true,
+            modules: true
+        }
     },
     env: {
         browser: true,
+        commonjs: true,
         node: true,
         es6: true
     },
