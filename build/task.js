@@ -20,7 +20,18 @@ module.exports = merge(webpackConfig, {
             new OptimizeCSSAssetsPlugin({})
         ],
         splitChunks: {
-
+            cacheGroups: {
+                vendor: {
+                    priority: 1,
+                    test: /node_modules/,
+                    chunks: 'initial',
+                    minChunks: 2
+                },
+                common: {
+                    chunks: 'initial',
+                    minChunks: 2
+                }
+            }
         }
     },
     plugins: [
