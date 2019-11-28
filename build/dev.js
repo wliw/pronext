@@ -6,16 +6,29 @@ const webpackConfig = require('../config/webpack.config.js')(DEPLOY_ENV);
 
 module.exports = merge(webpackConfig, {
     mode: 'development',
-    // performance: {
-    //     hints: 'error'
-    // },
+    bail: false,
+    module: {
+        rules: [
+            {
+                test: /.s?css$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2
+                        }
+                    },
+                    'postcss-loader',
+                    'sass-loader'
+                ]
+            }
+        ]
+    },
+    optimization: {
+        namedChunks: true
+    },
     devServer: {
-        contentBase: resolve('dist'),
-        host: config.host,
-        port: config.port,
-        compress: true,
-        hot: true,
-        open: true,
         // proxy: {
         //     '/api': config.API_DOMAIN
         // },
@@ -24,6 +37,12 @@ module.exports = merge(webpackConfig, {
         //     cert: fs.readFileSync('/path/to/server.crt'),
         //     ca: fs.readFileSync('/path/to/ca.pem')
         // },
+        contentBase: resolve('dist'),
+        host: config.host,
+        port: config.port,
+        compress: true,
+        hot: true,
+        open: true,
         historyApiFallback: true
     }
 });

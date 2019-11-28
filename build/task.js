@@ -7,42 +7,85 @@ const merge = require('webpack-merge');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const DEPLOY_ENV = process.env.DEPLOY_ENV || 'production';
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpackConfig = require('../config/webpack.config.js')(DEPLOY_ENV);
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = merge(webpackConfig, {
+    module: {
+        rules: [
+            {
+                test: /.s?css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2,
+                            minimize: {
+                                discardComments: { removeAll: true },
+                            }
+                        }
+                    },
+                    'postcss-loader',
+                    'sass-loader'
+                ]
+            },
+        ]
+    },
+    stats: {
+        cached: false,
+        cachedAssets: false,
+        chunks: false,
+        chunkModules: false,
+        colors: true,
+        hash: false,
+        modules: false,
+        reasons: false,
+        timings: true,
+        version: false
+    },
     optimization: {
+        removeEmptyChunks: true,
+        mergeDuplicateChunks: true,
+        occurrenceOrder: true,
+        sideEffects: true,
+        runtimeChunk: false,
+        namedChunks: false,
+        minimize: true,
         minimizer: [
             new TerserJSPlugin({
                 cache: true,
-                parallel: true
+                parallel: true,
+                terserOptions: {
+                    compress: {
+                        drop_console: true
+                    },
+                    output: {
+                        comments: false,
+                        beautify: false
+                    }
+                }
             }),
             new OptimizeCSSAssetsPlugin({})
         ],
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    priority: 1,
-                    test: /node_modules/,
-                    chunks: 'initial',
-                    minChunks: 2
-                },
-                common: {
-                    chunks: 'initial',
-                    minChunks: 2
-                }
+        cacheGroups: {
+            styles: {
+                name: 'styles',
+                test: /\.s?css$/,
+                chunks: 'all',
+                enforce: true
             }
         }
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new webpack.HashedModuleIdsPlugin()
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     name: 'vendor'
-        // }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     name: 'manifest'
-        // })
+        new webpack.HashedModuleIdsPlugin(),
+        new webpack.optimize.AggressiveMergingPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[contenthash:8].css',
+            chunkFilename: 'css/[id].[contenthash:8].css'
+        })
     ]
 });
 

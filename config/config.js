@@ -7,6 +7,7 @@ module.exports = {
         STATIC_PATH: 'static/',
         API_DOMAIN: 'http://api.domain.com',
         filenameHash: false,
+        developmentMode: true,
         devtool: 'cheap-module-eval-source-map'
     },
     local: {
@@ -17,6 +18,7 @@ module.exports = {
         STATIC_PATH: 'static/',
         API_DOMAIN: 'http://api.domain.com',
         filenameHash: false,
+        developmentMode: false,
         devtool: ''
     },
     test: {
@@ -27,6 +29,7 @@ module.exports = {
         STATIC_PATH: 'static/',
         API_DOMAIN: 'http://api.domain.com',
         filenameHash: true,
+        developmentMode: false,
         devtool: ''
     },
     pre: {
@@ -37,6 +40,7 @@ module.exports = {
         STATIC_PATH: 'static/',
         API_DOMAIN: 'http://preapi.domain.com',
         filenameHash: true,
+        developmentMode: false,
         devtool: ''
     },
     production: {
@@ -47,6 +51,7 @@ module.exports = {
         STATIC_PATH: 'static/',
         API_DOMAIN: 'https://api.domain.com',
         filenameHash: true,
+        developmentMode: false,
         devtool: ''
     }
 };

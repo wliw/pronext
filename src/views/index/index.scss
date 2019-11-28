@@ -1,11 +1,5 @@
 @import "~@/assets/styles/common.scss";
 
-body {
-    width: 100%;
-    max-width: 750PX;
-    margin: 0 auto;
-}
-
 .c-pic-wrap {
     position: relative;
     width: 100%;
@@ -34,7 +28,7 @@ body {
     padding: 4px 8px;
     background-color: rgba(0, 0, 0, .25);
     border-radius: 8px 0 0 0;
-    font-size: 13px;
+    font-size: 26px;
     color: #fff;
 }
 

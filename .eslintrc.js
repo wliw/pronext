@@ -35,7 +35,7 @@ module.exports = {
     // "warn" -> 1 开启警告规则
     // "error" -> 2 开启错误规则
     rules: {
-        indent: ['warn', 4],
+        indent: ['warn', 4, { SwitchCase: 1 }],
         semi: ['warn', 'always'],
         camelcase: 0,
         'comma-dangle': [
