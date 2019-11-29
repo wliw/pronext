@@ -127,7 +127,6 @@ module.exports = function (DEPLOY_ENV = 'production') {
         entry[item.key] = item.entry;
         plugins.push(
             new HtmlWebpackPlugin({
-                title: item.name,
                 filename: item.name,
                 template: item.template,
                 chunks: [item.key],

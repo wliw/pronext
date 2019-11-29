@@ -21,10 +21,7 @@ module.exports = merge(webpackConfig, {
                     {
                         loader: 'css-loader',
                         options: {
-                            importLoaders: 2,
-                            minimize: {
-                                discardComments: { removeAll: true },
-                            }
+                            importLoaders: 2
                         }
                     },
                     'postcss-loader',
@@ -52,7 +49,6 @@ module.exports = merge(webpackConfig, {
         sideEffects: true,
         runtimeChunk: false,
         namedChunks: false,
-        minimize: true,
         minimizer: [
             new TerserJSPlugin({
                 cache: true,
@@ -69,12 +65,14 @@ module.exports = merge(webpackConfig, {
             }),
             new OptimizeCSSAssetsPlugin({})
         ],
-        cacheGroups: {
-            styles: {
-                name: 'styles',
-                test: /\.s?css$/,
-                chunks: 'all',
-                enforce: true
+        splitChunks: {
+            cacheGroups: {
+                styles: {
+                    name: 'styles',
+                    test: /\.s?css$/,
+                    chunks: 'all',
+                    enforce: true
+                }
             }
         }
     },

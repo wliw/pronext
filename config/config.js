@@ -5,9 +5,9 @@ module.exports = {
         port: 8848,
         PUBLIC_PATH: '/',
         STATIC_PATH: 'static/',
-        API_DOMAIN: 'http://api.domain.com',
+        API_DOMAIN: 'http://testapi.domain.com',
         filenameHash: false,
-        developmentMode: true,
+        cache: true,
         devtool: 'cheap-module-eval-source-map'
     },
     local: {
@@ -16,9 +16,9 @@ module.exports = {
         port: 80,
         PUBLIC_PATH: 'http://localwww.domain.com/',
         STATIC_PATH: 'static/',
-        API_DOMAIN: 'http://api.domain.com',
+        API_DOMAIN: 'http://testapi.domain.com',
         filenameHash: false,
-        developmentMode: false,
+        cache: false,
         devtool: ''
     },
     test: {
@@ -26,21 +26,21 @@ module.exports = {
         host: 'testwww.domain.com',
         port: 80,
         PUBLIC_PATH: 'http://testwww.domain.com/',
-        STATIC_PATH: 'static/',
-        API_DOMAIN: 'http://api.domain.com',
+        STATIC_PATH: 'http://teststatic.domain.com/static/',
+        API_DOMAIN: 'http://testapi.domain.com',
         filenameHash: true,
-        developmentMode: false,
+        cache: false,
         devtool: ''
     },
     pre: {
-        ORIGIN_DOMAIN: 'http://prewww.domain.com',
+        ORIGIN_DOMAIN: 'https://prewww.domain.com',
         host: 'prewww.domain.com',
         port: 80,
-        PUBLIC_PATH: 'http://prewww.domain.com/',
-        STATIC_PATH: 'static/',
-        API_DOMAIN: 'http://preapi.domain.com',
+        PUBLIC_PATH: 'https://prewww.domain.com/',
+        STATIC_PATH: 'https://prestitic.domain.com/static/',
+        API_DOMAIN: 'https://preapi.domain.com',
         filenameHash: true,
-        developmentMode: false,
+        cache: false,
         devtool: ''
     },
     production: {
@@ -48,10 +48,10 @@ module.exports = {
         host: 'www.domain.com',
         port: 80,
         PUBLIC_PATH: 'https://www.domain.com/',
-        STATIC_PATH: 'static/',
+        STATIC_PATH: 'https://static.domain.com/static/',
         API_DOMAIN: 'https://api.domain.com',
         filenameHash: true,
-        developmentMode: false,
+        cache: false,
         devtool: ''
     }
 };
