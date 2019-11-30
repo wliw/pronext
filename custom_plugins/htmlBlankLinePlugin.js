@@ -6,23 +6,19 @@ class HtmlBlankLinePlugin {
             compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tapAsync(pluginName, (data, callback) => {
                 let html = data.html;
 
+                // 去除多个空换行为一个换行
                 html = html.replace(/(\n+)/g, '\n');
-                // const headEndLinkReg = /<link(.*)<\/head>/;
-                // let html = data.html;
-                // let headEndLink = html.match(headEndLinkReg);
+                // 去除重复换行多空格为一个换行和多空格
+                html = html.replace(/(\n\s+)(\n\s+)/g, '$1');
+                // 将head里面的script和link变换位置
+                html = html.replace(/<script(.*)script>\n<link(.*)<\/head>/, '<link$2\n    <script$1script>\n</head>');
+                // 多个link换行加多空格
+                html = html.replace(/(><link)/g, '>\n    <link');
+                // body开始标签去除第一个子标签的多空格
+                html = html.replace(/<body (.*)(\n\s+)$/, '<body $1\n');
+                // body结束表情加换行
+                html = html.replace(/(<\/body>)/g, '\n$1');
 
-                // if (headEndLink && headEndLink[1]) {
-                //     const headEndLinkString = `<link${headEndLink[1]}`;
-
-                //     html = html.replace(headEndLinkString, '');
-                //     html = html.replace(/(<script.*script>)/, `${headEndLinkString}\n    $1`);
-                // }
-
-                // html = html.replace(/(<link)/g, '\n    $1');
-                // html = html.replace(/<\/(head|body)>/g, '\n</$1>');
-                // html = html.replace(/\n(\s+)\n(\s+)/g, '\n');
-                // html = html.replace(/\n+/g, '\n');
-                // html = html.replace(/\n<link/, '\n    <link');
                 data.html = html;
                 callback && callback(null, data);
             });
