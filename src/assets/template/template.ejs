@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
     <title><%= title %></title>
     <meta name="applicable-device" content="pc,mobile">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
     <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -15,7 +15,7 @@
     <meta name="keywords" content="<%= keywords %>">
     <meta name="description" content="<%= description %>">
     <!-- <link rel="dns-prefetch" href="//static.domain.com"> -->
-    <link href="//www.meitu.com/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <script>
         ;(function (win, doc) {
             var docEl = doc.documentElement;
@@ -30,7 +30,7 @@
                 fontSize = fontSize > 200 ? 200 : fontSize;
                 docEl.style.fontSize = fontSize + 'px';
 
-                // 好像小米或者美图手机会出现这个问题
+                // 小米或者美图手机会出现这个问题
                 var finalFontSize = parseFloat(win.getComputedStyle(docEl).getPropertyValue('font-size'));
 
                 if (finalFontSize !== fontSize) {
