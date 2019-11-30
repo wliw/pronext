@@ -67,12 +67,12 @@ module.exports = merge(webpackConfig, {
         ],
         splitChunks: {
             cacheGroups: {
-                styles: {
-                    name: 'styles',
-                    test: /\.s?css$/,
-                    chunks: 'all',
-                    enforce: true
-                }
+                // styles: {
+                //     name: 'styles',
+                //     test: /\.s?css$/,
+                //     chunks: 'all',
+                //     enforce: true
+                // }
             }
         }
     },

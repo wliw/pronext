@@ -10,6 +10,12 @@ function initMixin (App) {
     };
 }
 
+function eventsMixin (App) {
+    App.domLoaded = function (func) {
+        contentLoaded(func);
+    };
+}
+
 function extendMixin (App) {
     function _extend (source, destination) {
         for (let key in source) {
@@ -36,15 +42,9 @@ function includeMixin (App) {
     };
 }
 
-function domLoadedMixin (App) {
-    App.domLoaded = function (func) {
-        contentLoaded(func);
-    };
-}
-
 initMixin(App);
+eventsMixin(App);
 extendMixin(App);
 includeMixin(App);
-domLoadedMixin(App);
 
 export default App;

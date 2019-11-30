@@ -3,17 +3,13 @@ const configs = require('./config.js');
 const resolve = require('../utils/index.js');
 const entryFiles = require('./entryFiles.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlFaviconPlugin = require('../custom_plugins/htmlFaviconPlugin.js');
+const HtmlBlankLinePlugin = require('../custom_plugins/htmlBlankLinePlugin');
 
 module.exports = function (DEPLOY_ENV = 'production') {
     const entry = {};
     const config = configs[DEPLOY_ENV];
-    const plugins = [
-        new webpack.DefinePlugin({
-            'process.env.DEPLOY_ENV': JSON.stringify(DEPLOY_ENV),
-            'process.env.API_DOMAIN': JSON.stringify(config.API_DOMAIN),
-            'process.env.ORIGIN_DOMAIN': JSON.stringify(config.ORIGIN_DOMAIN)
-        })
-    ];
+    const plugins = [];
     const webpackConfig = {
         mode: 'production',
         cache: config.cache,
@@ -131,6 +127,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
                 template: item.template,
                 chunks: [item.key],
                 inject: 'body',
+                favicon: resolve('favicon.ico'),
                 base: config.ORIGIN_DOMAIN,
                 minify: {
                     minifyCSS: true,
@@ -141,6 +138,20 @@ module.exports = function (DEPLOY_ENV = 'production') {
             })
         );
     });
+
+    plugins.push(
+        new webpack.DefinePlugin({
+            'process.env.DEPLOY_ENV': JSON.stringify(DEPLOY_ENV),
+            'process.env.API_DOMAIN': JSON.stringify(config.API_DOMAIN),
+            'process.env.ORIGIN_DOMAIN': JSON.stringify(config.ORIGIN_DOMAIN)
+        })
+    );
+    plugins.push(
+        new HtmlFaviconPlugin()
+    );
+    plugins.push(
+        new HtmlBlankLinePlugin()
+    );
 
     return webpackConfig;
 };
