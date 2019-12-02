@@ -3,6 +3,7 @@ const configs = require('./config.js');
 const resolve = require('../utils/index.js');
 const entryFiles = require('./entryFiles.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlFaviconPlugin = require('../custom_plugins/htmlFaviconPlugin.js');
 const HtmlBlankLinePlugin = require('../custom_plugins/htmlBlankLinePlugin');
 
@@ -56,6 +57,20 @@ module.exports = function (DEPLOY_ENV = 'production') {
                             cacheDirectory: config.cache
                         }
                     }
+                },
+                {
+                    test: /.s?css$/,
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                importLoaders: 2
+                            }
+                        },
+                        'postcss-loader',
+                        'sass-loader'
+                    ]
                 },
                 {
                     test: /\.(bmp|png|svg|gif|jpe?g)(\?[a-z0-9=]+)?$/,
@@ -144,12 +159,8 @@ module.exports = function (DEPLOY_ENV = 'production') {
             'process.env.DEPLOY_ENV': JSON.stringify(DEPLOY_ENV),
             'process.env.API_DOMAIN': JSON.stringify(config.API_DOMAIN),
             'process.env.ORIGIN_DOMAIN': JSON.stringify(config.ORIGIN_DOMAIN)
-        })
-    );
-    plugins.push(
-        new HtmlFaviconPlugin()
-    );
-    plugins.push(
+        }),
+        new HtmlFaviconPlugin(),
         new HtmlBlankLinePlugin()
     );
 

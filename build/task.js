@@ -12,24 +12,6 @@ const webpackConfig = require('../config/webpack.config.js')(DEPLOY_ENV);
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = merge(webpackConfig, {
-    module: {
-        rules: [
-            {
-                test: /.s?css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 2
-                        }
-                    },
-                    'postcss-loader',
-                    'sass-loader'
-                ]
-            },
-        ]
-    },
     stats: {
         cached: false,
         cachedAssets: false,

@@ -2,29 +2,12 @@ const DEPLOY_ENV = 'development';
 const merge = require('webpack-merge');
 const resolve = require('../utils/index.js');
 const config = require('../config/config.js')[DEPLOY_ENV];
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpackConfig = require('../config/webpack.config.js')(DEPLOY_ENV);
 
 module.exports = merge(webpackConfig, {
     mode: 'development',
     bail: false,
-    module: {
-        rules: [
-            {
-                test: /.s?css$/,
-                use: [
-                    'style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 2
-                        }
-                    },
-                    'postcss-loader',
-                    'sass-loader'
-                ]
-            }
-        ]
-    },
     optimization: {
         namedChunks: true
     },
@@ -44,5 +27,11 @@ module.exports = merge(webpackConfig, {
         hot: true,
         open: true,
         historyApiFallback: true
-    }
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].css?[hash:8]',
+            chunkFilename: 'css/[id].css?[hash:8]'
+        })
+    ]
 });
