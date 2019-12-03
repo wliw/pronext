@@ -2,7 +2,7 @@ module.exports = {
     development: {
         ORIGIN_DOMAIN: 'http://127.0.0.1',
         host: '127.0.0.1',
-        port: 8848,
+        port: 8688,
         PUBLIC_PATH: '/',
         STATIC_PATH: 'static/',
         API_DOMAIN: 'http://testapi.domain.com',

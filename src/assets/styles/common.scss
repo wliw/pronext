@@ -1,5 +1,10 @@
 @import "./normalize.scss";
 
+html {
+    // font-size: 100PX;
+    // font-size: (100vw / 750) * 100;
+}
+
 body {
     width: 100%;
     max-width: 750PX;

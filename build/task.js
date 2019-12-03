@@ -48,14 +48,14 @@ module.exports = merge(webpackConfig, {
             new OptimizeCSSAssetsPlugin({})
         ],
         splitChunks: {
-            cacheGroups: {
-                // styles: {
-                //     name: 'styles',
-                //     test: /\.s?css$/,
-                //     chunks: 'all',
-                //     enforce: true
-                // }
-            }
+            // cacheGroups: {
+            //     styles: {
+            //         name: 'styles',
+            //         test: /\.s?css$/,
+            //         chunks: 'all',
+            //         enforce: true
+            //     }
+            // }
         }
     },
     plugins: [

@@ -4,6 +4,7 @@
 该项目为侠侣联盟前端项目仓库。前后端代码和仓库使用分离开发模式，前后端对接使用API交互。
 
 # 目录结构
+```
 ├── build                             // help
 │   ├── build.js
 │   ├── dev.json                      // 开发环境
@@ -46,3 +47,5 @@
 ├── package-lock.json
 ├── postcss.config.js
 └── README.md
+```
+

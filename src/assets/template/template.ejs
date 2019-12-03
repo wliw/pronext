@@ -20,16 +20,42 @@
             var docEl = doc.documentElement;
             var UA = navigator.userAgent;
             var refreshRemId = 0;
-            var refreshRem = function () {
+            function refreshRem () {
                 refreshRemId && clearTimeout(refreshRemId);
 
                 var w = docEl.getBoundingClientRect().width || 320;
                 var fontSize = w / 375 * 100;
+                var dpr = window.devicePixelRatio || 1;
 
                 fontSize = fontSize > 200 ? 200 : fontSize;
                 docEl.style.fontSize = fontSize + 'px';
 
-                // 小米或者美图手机会出现这个问题
+                detectHairlines();
+                diffFontSize(fontSize);
+            };
+            // 检测支持0.5像素 引用lib-flexible
+            function detectHairlines () {
+                var dpr = window.devicePixelRatio || 1;
+
+                if (dpr > 2) {
+                    var fakeBody = document.createElement('body');
+                    var testElement = document.createElement('div');
+
+                    testElement.style.border = '.5px solid transparent';
+                    fakeBody.appendChild(testElement);
+                    docEl.appendChild(fakeBody);
+
+                    if (testElement.offsetHeight === 1) {
+                        docEl.className += 'hairlines';
+                    }
+
+                    docEl.removeChild(fakeBody);
+                } else if (/hairlines/.test(docEl.className)) {
+                    docEl.className = docEl.className.replace(/hairlines/, '');
+                }
+            };
+            // 小米或者美图手机会出现这个问题
+            function diffFontSize (fontSize) {
                 var finalFontSize = parseFloat(win.getComputedStyle(docEl).getPropertyValue('font-size'));
 
                 if (finalFontSize !== fontSize) {
@@ -38,15 +64,16 @@
                     win.fontSize = fontSize;
                 }
             };
+
+            refreshRem();
             win.addEventListener('resize', function () {
-                refreshRemId = setTimeout(refreshRem, 100)
+                refreshRemId = setTimeout(refreshRem, 300)
             }, false);
             win.addEventListener('pageshow', function (e) {
                 if (e.persisted) {
-                    refreshRemId = setTimeout(refreshRem, 100)
+                    refreshRemId = setTimeout(refreshRem, 300)
                 }
             }, false);
-            refreshRem();
         })(window, document);
     </script>
 </head>
