@@ -1,7 +1,7 @@
-## Ticket Vue 2.0
+## HTML5 template
 
 # Introduction
-该项目为侠侣联盟前端项目仓库。前后端代码和仓库使用分离开发模式，前后端对接使用API交互。
+简单的HTML5开发模板
 
 # 目录结构
 ```
