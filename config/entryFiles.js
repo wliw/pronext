@@ -1,12 +1,11 @@
 const resolve = require('../utils/index.js');
-
-const prefix = 'src/views';
+const namespace = 'src/views';
 
 module.exports = [
     {
         key: 'index',
         name: 'index.html',
-        entry: resolve(`${prefix}/index/index.js`),
-        template: resolve(`${prefix}/index/render.js`)
+        entry: resolve(`${namespace}/index/index.js`),
+        template: resolve(`${namespace}/index/render.js`)
     }
 ];

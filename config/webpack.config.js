@@ -3,7 +3,6 @@ const configs = require('./config.js');
 const resolve = require('../utils/index.js');
 const entryFiles = require('./entryFiles.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = function (DEPLOY_ENV = 'production') {
     const entry = {};
@@ -57,20 +56,6 @@ module.exports = function (DEPLOY_ENV = 'production') {
                     }
                 },
                 {
-                    test: /.s?css$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                importLoaders: 2
-                            }
-                        },
-                        'postcss-loader',
-                        'sass-loader'
-                    ]
-                },
-                {
                     test: /\.(bmp|png|svg|gif|jpe?g)(\?[a-z0-9=]+)?$/,
                     use: [
                         {
@@ -113,24 +98,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
         },
         devtool: config.devtool,
         // externals: /^(jquery|zepto|\$)$/i,
-        plugins,
-        optimization: {
-            splitChunks: {
-                cacheGroups: {
-                    vendor: {
-                        priority: 1,
-                        test: /[\\/]node_modules[\\/]/,
-                        name: 'vendor',
-                        chunks: 'all'
-                    },
-                    common: {
-                        name: 'common',
-                        chunks: 'initial',
-                        minChunks: 2
-                    }
-                }
-            }
-        }
+        plugins
     };
 
     entryFiles.forEach(item => {
@@ -139,7 +107,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
             new HtmlWebpackPlugin({
                 filename: item.name,
                 template: item.template,
-                chunks: [item.key],
+                // chunks: [item.key],
                 inject: 'body',
                 favicon: resolve('favicon.ico'),
                 base: config.ORIGIN_DOMAIN,
@@ -158,10 +126,6 @@ module.exports = function (DEPLOY_ENV = 'production') {
             'process.env.DEPLOY_ENV': JSON.stringify(DEPLOY_ENV),
             'process.env.API_DOMAIN': JSON.stringify(config.API_DOMAIN),
             'process.env.ORIGIN_DOMAIN': JSON.stringify(config.ORIGIN_DOMAIN)
-        }),
-        new MiniCssExtractPlugin({
-            filename: `css/${config.filenameHash ? '[name].[contenthash:8].css' : '[name].css?[contenthash:8]'}`,
-            chunkFilename: `css/${config.filenameHash ? '[id].[contenthash:8].css' : '[id].css?[contenthash:8]'}`
         })
     );
 

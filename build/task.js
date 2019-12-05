@@ -7,13 +7,31 @@ const merge = require('webpack-merge');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const DEPLOY_ENV = process.env.DEPLOY_ENV || 'production';
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpackConfig = require('../config/webpack.config.js')(DEPLOY_ENV);
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlFaviconPlugin = require('../custom_plugins/htmlFaviconPlugin.js');
 const HtmlBlankLinePlugin = require('../custom_plugins/htmlBlankLinePlugin');
 
 module.exports = merge(webpackConfig, {
+    module: {
+        rules: [
+            {
+                test: /.s?css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2
+                        }
+                    },
+                    'postcss-loader',
+                    'sass-loader'
+                ]
+            }
+        ]
+    },
     stats: {
         cached: false,
         cachedAssets: false,
@@ -51,12 +69,23 @@ module.exports = merge(webpackConfig, {
         ],
         splitChunks: {
             cacheGroups: {
-                styles: {
-                    name: 'styles',
-                    test: /\.s?css$/,
-                    chunks: 'all',
-                    enforce: true
+                vendors: {
+                    priority: -10,
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
                 }
+                // common: {
+                //     name: 'common',
+                //     chunks: 'initial',
+                //     minChunks: 2
+                // }
+                // styles: {
+                //     name: 'styles',
+                //     test: /\.s?css$/,
+                //     chunks: 'all',
+                //     enforce: true
+                // }
             }
         }
     },
@@ -64,12 +93,12 @@ module.exports = merge(webpackConfig, {
         new CleanWebpackPlugin(),
         new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
-        // new MiniCssExtractPlugin({
-        //     filename: 'css/[name].[contenthash:8].css',
-        //     chunkFilename: 'css/[id].[contenthash:8].css'
-        // }),
         new HtmlFaviconPlugin(),
-        new HtmlBlankLinePlugin()
+        new HtmlBlankLinePlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[contenthash:8].css',
+            chunkFilename: 'css/[id].[contenthash:8].css'
+        })
     ]
 });
 

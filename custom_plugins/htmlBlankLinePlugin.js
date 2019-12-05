@@ -12,8 +12,10 @@ class HtmlBlankLinePlugin {
                 html = html.replace(/(\n\s+)(\n\s+)/g, '$1');
                 // 将head里面的script和ico变换先后位置
                 html = html.replace(/<script(.*)script>\n<link(.*)icon">/, '<link$2icon">\n    <script$1script>\n');
-                // 多个link换行加多空格
+                // link加四个空格
                 html = html.replace(/(\n<link)/g, '\n    <link');
+                // 多个script换行加多空格
+                html = html.replace(/(script>)(<script)/g, '$1\n$2');
                 // body结束表情加换行
                 html = html.replace(/<\/(head|body)>/g, '\n</$1>');
                 // body开始标签去除第一个子标签的多空格

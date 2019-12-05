@@ -64,5 +64,5 @@
     "core-js": "^3.4.7",
     "flyio": "^0.6.14"
   },
-  "sideEffects": false
+  "sideEffects": ["*.css*", "*.scss*"]
 }

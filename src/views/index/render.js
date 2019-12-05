@@ -1,4 +1,4 @@
-import Render from '@/assets/template/render.js';
+import Render from '@/assets/templates/render.js';
 import template from './template.ejs';
 
 export default Render({

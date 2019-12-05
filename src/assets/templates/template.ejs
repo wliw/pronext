@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cmn-Hans">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -36,8 +36,10 @@
             // 检测支持0.5像素 引用lib-flexible
             function detectHairlines () {
                 var dpr = window.devicePixelRatio || 1;
+                var className = docEl.className;
+                var hasHairlines = /hairlines/.test(className);
 
-                if (dpr > 2) {
+                if (dpr >= 2 && !hasHairlines) {
                     var fakeBody = document.createElement('body');
                     var testElement = document.createElement('div');
 
@@ -50,8 +52,8 @@
                     }
 
                     docEl.removeChild(fakeBody);
-                } else if (/hairlines/.test(docEl.className)) {
-                    docEl.className = docEl.className.replace(/hairlines/, '');
+                } else if (hasHairlines) {
+                    docEl.className = className.replace(/\s?hairlines\s?/g, '');
                 }
             };
             // 小米或者美图手机会出现这个问题
