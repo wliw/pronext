@@ -4,8 +4,6 @@ const resolve = require('../utils/index.js');
 const entryFiles = require('./entryFiles.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlFaviconPlugin = require('../custom_plugins/htmlFaviconPlugin.js');
-const HtmlBlankLinePlugin = require('../custom_plugins/htmlBlankLinePlugin');
 
 module.exports = function (DEPLOY_ENV = 'production') {
     const entry = {};
@@ -19,8 +17,8 @@ module.exports = function (DEPLOY_ENV = 'production') {
         output: {
             path: resolve('dist'),
             publicPath: config.PUBLIC_PATH,
-            filename: `js/${config.filenameHash ? '[name].[chunkhash:8].js' : '[name].js?[hash:8]'}`,
-            chunkFilename: `js/${config.filenameHash ? '[id].[chunkhash:8].js' : '[id].js?[chunkhash:8]'}`
+            filename: `js/[name].[chunkhash:8].js`,
+            chunkFilename: `js/[id].[chunkhash:8].js`
         },
         module: {
             strictExportPresence: true,
@@ -122,10 +120,11 @@ module.exports = function (DEPLOY_ENV = 'production') {
                     vendor: {
                         priority: 1,
                         test: /[\\/]node_modules[\\/]/,
-                        chunks: 'initial',
-                        minChunks: 2
+                        name: 'vendor',
+                        chunks: 'all'
                     },
-                    commons: {
+                    common: {
+                        name: 'common',
                         chunks: 'initial',
                         minChunks: 2
                     }
@@ -160,8 +159,10 @@ module.exports = function (DEPLOY_ENV = 'production') {
             'process.env.API_DOMAIN': JSON.stringify(config.API_DOMAIN),
             'process.env.ORIGIN_DOMAIN': JSON.stringify(config.ORIGIN_DOMAIN)
         }),
-        new HtmlFaviconPlugin(),
-        new HtmlBlankLinePlugin()
+        new MiniCssExtractPlugin({
+            filename: `css/${config.filenameHash ? '[name].[contenthash:8].css' : '[name].css?[contenthash:8]'}`,
+            chunkFilename: `css/${config.filenameHash ? '[id].[contenthash:8].css' : '[id].css?[contenthash:8]'}`
+        })
     );
 
     return webpackConfig;

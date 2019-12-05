@@ -7,9 +7,11 @@ const merge = require('webpack-merge');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const DEPLOY_ENV = process.env.DEPLOY_ENV || 'production';
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpackConfig = require('../config/webpack.config.js')(DEPLOY_ENV);
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlFaviconPlugin = require('../custom_plugins/htmlFaviconPlugin.js');
+const HtmlBlankLinePlugin = require('../custom_plugins/htmlBlankLinePlugin');
 
 module.exports = merge(webpackConfig, {
     stats: {
@@ -48,24 +50,26 @@ module.exports = merge(webpackConfig, {
             new OptimizeCSSAssetsPlugin({})
         ],
         splitChunks: {
-            // cacheGroups: {
-            //     styles: {
-            //         name: 'styles',
-            //         test: /\.s?css$/,
-            //         chunks: 'all',
-            //         enforce: true
-            //     }
-            // }
+            cacheGroups: {
+                styles: {
+                    name: 'styles',
+                    test: /\.s?css$/,
+                    chunks: 'all',
+                    enforce: true
+                }
+            }
         }
     },
     plugins: [
         new CleanWebpackPlugin(),
         new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
-        new MiniCssExtractPlugin({
-            filename: 'css/[name].[contenthash:8].css',
-            chunkFilename: 'css/[id].[contenthash:8].css'
-        })
+        // new MiniCssExtractPlugin({
+        //     filename: 'css/[name].[contenthash:8].css',
+        //     chunkFilename: 'css/[id].[contenthash:8].css'
+        // }),
+        new HtmlFaviconPlugin(),
+        new HtmlBlankLinePlugin()
     ]
 });
 
