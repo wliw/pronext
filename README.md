@@ -10,7 +10,7 @@
 │   └── tast.js                       // 正式环境
 ├── config                            // 配置
 │   ├── config.js                     // 各个环境的配置文件
-│   ├── entryFiles.js                 // webpack入口文件配置文件
+│   ├── entrances.js                  // webpack入口文件配置文件
 │   └── webpack.config.js             // webpack通用配置文件
 ├── cutom_plugins                     // 自定义webpack的plugins
 ├── dist                              // 构建完成后的内容存放目录
