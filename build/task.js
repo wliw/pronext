@@ -97,7 +97,7 @@ module.exports = merge(webpackConfig, {
         new HtmlBlankLinePlugin(),
         new MiniCssExtractPlugin({
             filename: 'css/[name].[contenthash:8].css',
-            chunkFilename: 'css/[id].[contenthash:8].css'
+            chunkFilename: 'css/[name].[contenthash:8].css'
         })
     ]
 });

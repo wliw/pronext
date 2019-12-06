@@ -9,7 +9,7 @@ module.exports = merge(webpackConfig, {
     bail: false,
     output: {
         filename: 'js/[name].js?[hash:8]',
-        chunkFilename: 'js/[id].js?[chunkhash:8]'
+        chunkFilename: 'js/[name].js?[chunkhash:8]'
     },
     module: {
         rules: [

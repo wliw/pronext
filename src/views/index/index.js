@@ -17,8 +17,16 @@ jsPicWrap.addEventListener('click', function (event) {
 }, false);
 
 document.getElementById('J_previewImg').addEventListener('click', (event) => {
-    console.log(3, event);
     event.stopPropagation();
+
+    import(
+        /* webpackChunkName: 'test' */
+        /* webpackMode: 'lazy' */
+        './test.js'
+    ).then(({ a }) => {
+        console.log('import');
+        console.log(a);
+    });
 }, true);
 
 const promise = new Promise((resolve) => {
