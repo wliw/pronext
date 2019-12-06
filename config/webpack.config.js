@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const configs = require('./config.js');
 const resolve = require('../utils/index.js');
-const entryFiles = require('./entryFiles.js');
+const entryFiles = require('./entrances.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function (DEPLOY_ENV = 'production') {
