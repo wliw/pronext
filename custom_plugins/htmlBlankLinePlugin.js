@@ -14,6 +14,8 @@ class HtmlBlankLinePlugin {
                 html = html.replace(/<script(.*)script>\n<link(.*)icon">/, '<link$2icon">\n    <script$1script>\n');
                 // link加四个空格
                 html = html.replace(/(\n<link)/g, '\n    <link');
+                // 多个link连在一起改成换行
+                html = html.replace(/(><link)/g, '>\n    <link');
                 // 多个script换行加多空格
                 html = html.replace(/(script>)(<script)/g, '$1\n$2');
                 // body结束表情加换行

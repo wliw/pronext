@@ -49,8 +49,6 @@ module.exports = merge(webpackConfig, {
         mergeDuplicateChunks: true,
         occurrenceOrder: true,
         sideEffects: true,
-        runtimeChunk: false,
-        namedChunks: false,
         minimizer: [
             new TerserJSPlugin({
                 cache: true,
@@ -69,30 +67,29 @@ module.exports = merge(webpackConfig, {
         ],
         splitChunks: {
             cacheGroups: {
+                default: false,
                 vendors: {
                     priority: -10,
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendors',
-                    chunks: 'all'
+                    chunks: 'initial'
+                },
+                commons: {
+                    priority: -20,
+                    test: /[\\/]src[\\/]assets[\\/]/,
+                    name: 'commons',
+                    chunks: 'all',
+                    minChunks: 2,
+                    reuseExistingChunk: true,
+                    enforce: true
                 }
-                // common: {
-                //     name: 'common',
-                //     chunks: 'initial',
-                //     minChunks: 2
-                // }
-                // styles: {
-                //     name: 'styles',
-                //     test: /\.s?css$/,
-                //     chunks: 'all',
-                //     enforce: true
-                // }
             }
         }
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.AggressiveMergingPlugin(),
+        new webpack.HashedModuleIdsPlugin(),
         new HtmlFaviconPlugin(),
         new HtmlBlankLinePlugin(),
         new MiniCssExtractPlugin({

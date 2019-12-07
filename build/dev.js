@@ -29,9 +29,6 @@ module.exports = merge(webpackConfig, {
             }
         ]
     },
-    optimization: {
-        namedChunks: true
-    },
     devServer: {
         // proxy: {
         //     '/api': config.API_DOMAIN

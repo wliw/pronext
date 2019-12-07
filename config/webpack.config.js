@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const configs = require('./config.js');
+const entrances = require('./entrances.js');
 const resolve = require('../utils/index.js');
-const entryFiles = require('./entrances.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function (DEPLOY_ENV = 'production') {
@@ -57,11 +57,37 @@ module.exports = function (DEPLOY_ENV = 'production') {
                 },
                 {
                     test: /\.(bmp|png|svg|gif|jpe?g)(\?[a-z0-9=]+)?$/,
-                    use: [
+                    use: {
+                        loader: 'url-loader',
+                        options: {
+                            name: '[name].[ext]?[contenthash:8]',
+                            limit: 4096,
+                            fallback: 'file-loader'
+                        }
+                    }
+                },
+                {
+                    test: /\.(svg)(\?[a-z0-9=]+)?$/,
+                    oneOf: [
                         {
-                            loader: 'file-loader',
+                            test: /fonts\/(.*)\.svg(\?[a-z0-9=]+)?$/,
+                            loader: 'url-loader',
+                            include: [
+                                resolve('src/assets/fonts')
+                            ],
                             options: {
                                 name: '[name].[ext]?[contenthash:8]',
+                                outputPath: `fonts/`
+                            }
+                        },
+                        {
+                            loader: 'svg-url-loader',
+                            exclude: [
+                                resolve('src/assets/fonts')
+                            ],
+                            options: {
+                                name: '[name].[ext]?[contenthash:8]',
+                                limit: 4096,
                                 outputPath: `images/`
                             }
                         }
@@ -69,18 +95,22 @@ module.exports = function (DEPLOY_ENV = 'production') {
                 },
                 {
                     test: /\.(woff|woff2|eot|ttf|otf)(\?[a-z0-9=]+)?$/,
-                    use: [
-                        {
-                            loader: 'file-loader',
-                            options: {
-                                name: '[name].[ext]?[contenthash:8]',
-                                outputPath: `fonts/`
-                            }
+                    exclude: [
+                        resolve('node_modules')
+                    ],
+                    use: {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]?[contenthash:8]',
+                            outputPath: `fonts/`
                         }
-                    ]
+                    }
                 },
                 {
                     test: /\.ejs$/,
+                    include: [
+                        resolve('src')
+                    ],
                     loader: 'ejs-loader'
                 }
             ]
@@ -101,13 +131,15 @@ module.exports = function (DEPLOY_ENV = 'production') {
         plugins
     };
 
-    entryFiles.forEach(item => {
+    entrances.forEach(item => {
+        const chunks = ['vendors', 'commons', item.key];
+
         entry[item.key] = item.entry;
         plugins.push(
             new HtmlWebpackPlugin({
                 filename: item.name,
                 template: item.template,
-                // chunks: [item.key],
+                chunks,
                 inject: 'body',
                 favicon: resolve('favicon.ico'),
                 base: config.ORIGIN_DOMAIN,

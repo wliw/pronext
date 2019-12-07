@@ -3,22 +3,13 @@ import { $ } from '@/assets/modules/dom.js';
 import "@/assets/styles/common.scss";
 import './index.scss';
 
+$('js-test').addEventListener('click', () => {
+    console.log('test');
+}, false);
+
 window.addEventListener('click', function (event) {
     console.log(1, event);
 }, false);
-
-$('js-index').addEventListener('click', (event) => {
-    event.stopPropagation();
-
-    import(
-        /* webpackChunkName: 'other' */
-        /* webpackMode: 'lazy' */
-        './other.js'
-    ).then(({ a }) => {
-        console.log('import');
-        console.log(a);
-    });
-}, true);
 
 const promise = new Promise((resolve) => {
     setTimeout(() => {
