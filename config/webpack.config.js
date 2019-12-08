@@ -56,18 +56,19 @@ module.exports = function (DEPLOY_ENV = 'production') {
                     }
                 },
                 {
-                    test: /\.(bmp|png|svg|gif|jpe?g)(\?[a-z0-9=]+)?$/,
+                    test: /\.(bmp|png|gif|jpe?g)(\?[a-z0-9=]+)?$/,
                     use: {
                         loader: 'url-loader',
                         options: {
                             name: '[name].[ext]?[contenthash:8]',
                             limit: 4096,
-                            fallback: 'file-loader'
+                            fallback: 'file-loader',
+                            outputPath: `images/`
                         }
                     }
                 },
                 {
-                    test: /\.(svg)(\?[a-z0-9=]+)?$/,
+                    test: /\.svg(\?[a-z0-9=]+)?$/,
                     oneOf: [
                         {
                             test: /fonts\/(.*)\.svg(\?[a-z0-9=]+)?$/,
@@ -77,6 +78,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
                             ],
                             options: {
                                 name: '[name].[ext]?[contenthash:8]',
+                                limit: 1,
                                 outputPath: `fonts/`
                             }
                         },
