@@ -114,6 +114,12 @@ module.exports = function (DEPLOY_ENV = 'production') {
                         resolve('src')
                     ],
                     loader: 'ejs-loader'
+                },{
+                    test: /\.html$/,
+                    loader: 'html-loader',
+                    options: {
+                        attrs: ['img:data-src']
+                    }
                 }
             ]
         },
