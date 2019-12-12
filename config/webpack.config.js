@@ -17,7 +17,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
             path: resolve('dist'),
             publicPath: config.PUBLIC_PATH,
             filename: `js/[name].[chunkhash:8].js`,
-            chunkFilename: `js/[name].[chunkhash:8].js`
+            chunkFilename: `js/[name].[contenthash:8].js`
         },
         module: {
             strictExportPresence: true,
