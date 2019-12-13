@@ -1,4 +1,7 @@
+import logsInstall from '@/assets/modules/logs/index.js';
 import { $ } from '@/assets/modules/dom.js';
+
+logsInstall();
 
 import "@/assets/styles/common.scss";
 import './index.scss';
