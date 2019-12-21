@@ -56,7 +56,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
                     }
                 },
                 {
-                    test: /\.(bmp|png|gif|jpe?g)(\?[a-z0-9=]+)?$/,
+                    test: /\.(bmp|png|gif|jpe?g)(\?.*)?$/,
                     use: {
                         loader: 'url-loader',
                         options: {
@@ -71,7 +71,7 @@ module.exports = function (DEPLOY_ENV = 'production') {
                     test: /\.svg(\?[a-z0-9=]+)?$/,
                     oneOf: [
                         {
-                            test: /fonts\/(.*)\.svg(\?[a-z0-9=]+)?$/,
+                            test: /fonts\/(.*)\.svg(\?.*)?$/,
                             loader: 'url-loader',
                             include: [
                                 resolve('src/assets/fonts')
@@ -96,7 +96,20 @@ module.exports = function (DEPLOY_ENV = 'production') {
                     ]
                 },
                 {
-                    test: /\.(woff|woff2|eot|ttf|otf)(\?[a-z0-9=]+)?$/,
+                    test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+                    include: [
+                        resolve('src')
+                    ],
+                    use: {
+                        loader: 'url-loader',
+                        options: {
+                            name: '[name].[ext]?[contenthash:8]',
+                            outputPath: 'media/'
+                        }
+                    }
+                },
+                {
+                    test: /\.(woff|woff2|eot|ttf|otf)(\?.*)?$/,
                     exclude: [
                         resolve('node_modules')
                     ],
@@ -114,7 +127,8 @@ module.exports = function (DEPLOY_ENV = 'production') {
                         resolve('src')
                     ],
                     loader: 'ejs-loader'
-                },{
+                },
+                {
                     test: /\.html$/,
                     loader: 'html-loader',
                     options: {
